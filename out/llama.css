@@ -1,0 +1,37 @@
+.llama-client ul.nav {
+  margin-bottom: 1em;
+}
+
+.llama-client .llama-view {
+  position: relative;
+}
+.llama-client .llama-detail {
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.llama-beacon {
+  float: left;
+  margin: 10px 10px 0 0;
+  width: 150px;
+}
+.llama-beacon .header {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.llama-beacon .chart {
+  border: 1px solid black;
+}
+.llama-beacon .chart .up {
+  border-bottom: 1px solid black;
+}
+.llama-beacon .chart svg {
+  display: block;
+}
+.llama-beacon .d3stream-bar {
+  fill: black;
+  cursor: auto;
+}
