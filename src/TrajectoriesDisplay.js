@@ -24,7 +24,7 @@ function TrajectoriesDisplay(llama, element) {
         .cumulate('y');
     })
     .domainIQR('z')
-    .domainBands('x', 'x')
+    .domainBands('x', 'x', llama.displays.keys)
     .addAxis('x', 'y')
     .lineChart({ curveLine: true });
 }
