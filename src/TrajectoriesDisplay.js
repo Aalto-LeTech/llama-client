@@ -9,15 +9,19 @@ function TrajectoriesDisplay(llama, element) {
     })
     .cross(llama.displays.keys)
     .mapAsStreams(function (row) {
-      return row.map(function (pair, i) {
-        return {
-          x: pair[1],
-          y: +pair[0][pair[1] + ' Total'],
-          z: +pair[0][pair[1] + ' Count'],
-          payload: pair[0],
-        };
-      })
-      .cumulate('y');
+      return row
+        .filter(function (pair) {
+          return pair[0][pair[1] + ' Count'] > 0;
+        })
+        .map(function (pair) {
+          return {
+            x: pair[1],
+            y: +pair[0][pair[1] + ' Total'],
+            z: +pair[0][pair[1] + ' Count'],
+            payload: pair[0],
+          };
+        })
+        .cumulate('y');
     })
     .domainIQR('z')
     .domainBands('x', 'x')
