@@ -8,7 +8,7 @@ var Factory = {
   '#llama-view-table': require('./TableDisplay.js'),
 };
 
-function LlamaClient(options) {
+function LlamaClient(options, d3lib, d3StreamClass) {
 
   var defaults = {
     progressLabels: ['Not submitted', '< 90% points', '>= 90% points'],
@@ -19,9 +19,11 @@ function LlamaClient(options) {
     throw new Error('Llama Client requires apiUrl (function) in options argument!');
   }
 
-  this.stream = new d3Stream();
-  this.filterTagIds = new d3Stream();
-  this.selectedLearners = new d3Stream();
+  this.d3 = d3lib || d3;
+  this.d3Stream = d3StreamClass || d3Stream;
+  this.stream = new this.d3Stream();
+  this.filterTagIds = new this.d3Stream();
+  this.selectedLearners = new this.d3Stream();
   this.displays = {
     keys: new KeysDisplay(this, '#llama-unit-select'),
     learners: new LearnersDisplay(this, '#llama-view-learners'),
@@ -43,19 +45,21 @@ function LlamaClient(options) {
 
 LlamaClient.prototype.load = function(filter) {
   this.currentUnitFilter = filter;
-  this.stream.load(this.config.apiUrl(filter));
+  this.stream.load(this.config.apiUrl(filter), {
+    format: this.config.apiFormat || 'json',
+  }, this.d3);
 };
 
 LlamaClient.prototype.changeUnit = function(event, $a) {
   $('#llama-unit-select .nav').find('.active').removeClass('active');
-  $a.parent().addClass('active');
+  $a.addClass('active').parent().addClass('active');
   this.load($a.attr('href'));
 };
 
 LlamaClient.prototype.changeView = function(event, $a) {
   event.preventDefault();
   $('#llama-view-select .nav').find('.active').removeClass('active');
-  $a.parent().addClass('active');
+  $a.addClass('active').parent().addClass('active');
   this.displayView($a.attr('href'));
 };
 

@@ -4,7 +4,7 @@ function KeysDisplay(llama, element) {
   var $nav = $(element + ' .nav');
   $nav.find('.all a').on('click', changeUnit(llama));
 
-  return llama.stream.display(element)
+  return llama.stream.display(element, {}, llama.d3)
     .keys()
     .filter(function (d) {
       return d.substr(d.length - 6) == ' Count';

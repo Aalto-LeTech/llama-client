@@ -6,12 +6,12 @@ function TrajectoriesDisplay(llama, element) {
       selectPlot: true,
       update: selectCurrent(llama, element),
       select: selectLogic(llama),
-    })
+    }, llama.d3)
     .cross(llama.displays.keys)
     .mapAsStreams(function (row) {
       return row
         .filter(function (pair) {
-          return pair[0][pair[1] + ' Count'] > 0;
+          return +pair[0][pair[1] + ' Count'] > 0;
         })
         .map(function (pair) {
           return {
@@ -32,12 +32,12 @@ function TrajectoriesDisplay(llama, element) {
 function selectCurrent(llama, element) {
   return function (display, data) {
     var uids = llama.selectedLearners.array();
-    d3.select(element)
+    llama.d3.select(element)
       .selectAll('.d3stream-plot')
       .select('.d3stream-dot')
       .each(function (d) {
         if (llama.selectedLearners.contains(d.payload.UserID)) {
-          d3.select(this.parentNode).classed('d3stream-selection', true);
+          llama.d3.select(this.parentNode).classed('d3stream-selection', true);
           display.select.select(d.payload);
         }
       });

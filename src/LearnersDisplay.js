@@ -47,7 +47,7 @@ LearnersDisplay.prototype.createBadge = function($i, uid, learner) {
   $i.find('.name').text(learner.Email || learner.UserID);
   $i.find('.studentid').text(learner.StudentID || '');
 
-  var stream = new d3Stream(llama.displays.keys.array())
+  var stream = new llama.d3Stream(llama.displays.keys.array())
     .map(function (key, i) {
       return {
         x: key,
@@ -65,10 +65,10 @@ LearnersDisplay.prototype.createBadge = function($i, uid, learner) {
     transitionDuration: 0,
   };
 
-  stream.display($i.find('.up'), opt)
+  stream.display($i.find('.up'), opt, llama.d3)
     .domainBands('x', 'x')
     .barChart({ verticalVariable: 'p' });
-  stream.display($i.find('.down'), opt)
+  stream.display($i.find('.down'), opt, llama.d3)
     .domainBands('x', 'x')
     .barChartDownwards({ verticalVariable: 'e' });
 };

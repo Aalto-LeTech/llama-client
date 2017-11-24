@@ -6,7 +6,7 @@ function TableDisplay(llama, element) {
 
   return llama.stream.display(element, {
     update: updateDownloadLinks(llama, $div, $a),
-  })
+  }, llama.d3)
     .table();
 }
 

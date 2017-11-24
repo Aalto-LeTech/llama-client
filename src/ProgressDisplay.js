@@ -6,13 +6,13 @@ function ProgressDisplay(llama, element) {
 
   return llama.stream.display(element, {
     select: selectLogic(llama, $div, $pop)
-  })
+  }, llama.d3)
     .repeat(llama.displays.keys)
     .map(function (pair, i) {
       var countKey = pair[1] + ' Count';
       var ratioKey = pair[1] + ' Ratio';
 
-      return new d3Stream(pair[0])
+      return new llama.d3Stream(pair[0])
         .group([
           function (d) { return +d[countKey] == 0; },
           function (d) { return +d[ratioKey] < 0.9; },
@@ -39,7 +39,7 @@ function selectLogic(llama, $div, $pop) {
   return {
 
     over: function (select, data) {
-      var position = d3.mouse($div[0]);
+      var position = llama.d3.mouse($div[0]);
       $pop.show()
         .css('left', (position[0] + 15) + "px")
         .css('top', position[1] + "px");
@@ -49,8 +49,8 @@ function selectLogic(llama, $div, $pop) {
       var submissions = group.map(function(d) { return d[countKey]; });
       var ratios = group.map(function(d) { return d[ratioKey]; });
       $pop.find('.number').text(group.length);
-      $pop.find('.submissions').text(d3.min(submissions) + ' - ' + d3.max(submissions));
-      $pop.find('.ratio').text(per(d3.min(ratios)) + ' - ' + per(d3.max(ratios)));
+      $pop.find('.submissions').text(llama.d3.min(submissions) + ' - ' + llama.d3.max(submissions));
+      $pop.find('.ratio').text(per(llama.d3.min(ratios)) + ' - ' + per(llama.d3.max(ratios)));
     },
 
     out: function (select, data) {
